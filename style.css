@@ -1,0 +1,83 @@
+/* Base */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #2b2b2b;
+  background: #ffffff;
+}
+
+/* Header */
+header {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid #e5e5e5;
+  background: #faf9f7;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 6px 0 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Map */
+#map {
+  height: calc(100vh - 96px);
+  width: 100%;
+}
+
+/* Popup */
+.leaflet-popup-content {
+  margin: 12px 14px;
+  max-width: 260px;
+}
+
+.popup-title {
+  font-weight: 600;
+  font-size: 1.20rem;
+  margin-bottom: 6px;
+}
+
+.popup-specialty {
+  font-size: 1.00rem;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.popup-recommendation {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  color: #2f2f2f;
+}
+
+/* Links */
+.popup-links {
+  font-size: 0.9rem;
+}
+
+.popup-links a {
+  color: #3b6f5c;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.popup-links a:hover {
+  text-decoration: underline;
+}
+
+.popup-links span {
+  margin: 0 6px;
+  color: #999;
+}
+
+/* Remove popup arrow clutter on mobile */
+.leaflet-popup-tip {
+  display: none;
+}

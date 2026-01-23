@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Tea Shops I Recommend</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <h1>Recommended Loose-Leaf Tea Shops</h1>
+  <p class="subtitle">
+    Great places nearby to browse and buy some good loose-leaf tea!
+  </p>
+</header>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data.js"></script>
+
+<script>
+  // Initialize map (PNW-friendly extent)
+  const map = L.map("map").setView([47.6062, -122.3321], 12);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors"
+  }).addTo(map);
+
+  teaShops.forEach(shop => {
+    const popupContent = `
+      <div class="popup">
+        <div class="popup-title">${shop.name}</div>
+
+        <div class="popup-specialty">
+          <strong>Specialty:</strong> ${shop.specialty}
+        </div>
+
+        <div class="popup-recommendation">
+          ${shop.recommendation}
+        </div>
+
+        <div class="popup-links">
+          <a href="${shop.website}" target="_blank" rel="noopener">
+            Website
+          </a>
+          <span>·</span>
+          <a href="${shop.google_maps}" target="_blank" rel="noopener">
+            Google Maps
+          </a>
+        </div>
+      </div>
+    `;
+
+    L.marker(shop.coords)
+      .addTo(map)
+      .bindPopup(popupContent, { closeButton: false });
+  });
+</script>
+
+</body>
+</html>
