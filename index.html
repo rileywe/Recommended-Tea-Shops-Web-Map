@@ -16,30 +16,83 @@
 </head>
 <body>
 
-<header>
+<div id="title-container">
   <h1>Recommended Loose-Leaf Tea Shops</h1>
   <p class="subtitle">
     Great places nearby to browse and buy some good loose-leaf tea!
   </p>
-</header>
+</div>
 
 <div id="map"></div>
 
+<!-- Mobile-only toggle (visibility handled in CSS) -->
+<button id="view-toggle">Online Shops</button>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-providers@1.13.0/leaflet-providers.js"></script>
 <script src="data.js"></script>
 
 <script>
-  // Initialize map (PNW-friendly extent)
+  // -----------------------------
+  // Map initialization
+  // -----------------------------
   const map = L.map("map").setView([47.6062, -122.3321], 12);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap contributors"
-  }).addTo(map);
+  L.tileLayer.provider("CartoDB.Positron").addTo(map);
 
+  // Separate online-only shops
+  const onlineShops = teaShops.filter(shop => !shop.coords);
+
+  // -----------------------------
+  // Online shops panel (Leaflet control)
+  // -----------------------------
+  let onlinePanelEl = null;
+
+  const onlineShopControl = L.control({ position: "bottomleft" });
+
+  onlineShopControl.onAdd = function () {
+    const container = L.DomUtil.create("div", "online-shops-panel");
+
+    // Save reference for later toggle logic
+    onlinePanelEl = container;
+
+    // Prevent map interaction while scrolling panel
+    L.DomEvent.disableClickPropagation(container);
+    L.DomEvent.disableScrollPropagation(container);
+
+    container.innerHTML = `
+      <div class="online-shops-header">Online-Only Shops</div>
+      <div class="online-shops-list">
+        ${onlineShops.map(shop => `
+          <div class="shop-card">
+            <div class="shop-name"><b>${shop.name}</b></div>
+            <div class="shop-specialty"><strong>Specialty:</strong> ${shop.specialty}</div>
+            <div class="shop-city">Location: ${shop.city}</div>
+            <div class="shop-recommendation">${shop.recommendation}</div>
+            <div class="shop-links">
+              <a href="${shop.website}" target="_blank" rel="noopener">
+                Website
+              </a>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+
+    return container;
+  };
+
+  onlineShopControl.addTo(map);
+
+  // -----------------------------
+  // Map markers (walk-in shops)
+  // -----------------------------
   teaShops.forEach(shop => {
+    if (!shop.coords) return;
+
     const popupContent = `
       <div class="popup">
-        <div class="popup-title">${shop.name}</div>
+        <div class="popup-title"><b>${shop.name}</b></div>
 
         <div class="popup-specialty">
           <strong>Specialty:</strong> ${shop.specialty}
@@ -64,6 +117,29 @@
     L.marker(shop.coords)
       .addTo(map)
       .bindPopup(popupContent, { closeButton: false });
+  });
+
+  // -----------------------------
+  // Mobile toggle behavior
+  // -----------------------------
+  let showingList = false;
+  const toggleBtn = document.getElementById("view-toggle");
+  const mapEl = document.getElementById("map");
+
+  toggleBtn.addEventListener("click", () => {
+    // Only toggle on small screens
+    if (window.innerWidth > 768) return;
+
+    showingList = !showingList;
+
+    mapEl.style.display = showingList ? "none" : "block";
+    onlinePanelEl.style.display = showingList ? "block" : "block";
+
+    toggleBtn.textContent = showingList ? "Map View" : "Online Shops";
+
+    if (!showingList) {
+      map.invalidateSize();
+    }
   });
 </script>
 

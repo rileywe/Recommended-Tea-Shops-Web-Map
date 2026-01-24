@@ -68,5 +68,35 @@ const teaShops = [
     google_maps: "https://www.google.com/maps/place/LizzyKate/@47.6762136,-122.2071432,1045m/data=!3m1!1e3!4m6!3m5!1s0x549012dd81af2f0b:0xb51a8e7077e24ed6!8m2!3d47.675411!4d-122.2057079!16s%2Fg%2F11c0rn_6j2?entry=ttu&g_ep=EgoyMDI2MDEyMS4wIKXMDSoASAFQAw%3D%3D",
     specialty: "General selection",
     recommendation: "Great selection of all kinds of teas. They also do matcha classes and have a specially themed tea flight every weekend!"
+  }, 
+  {
+    id: "crimson_lotus",
+    name: "Crimson Lotus Tea",
+    city: "Lynnwood",
+    coords: null,
+    website: "https://crimsonlotustea.com/",
+    google_maps: null,
+    specialty: "Pu'er",
+    recommendation: "Very large selection of almost exclusively pu'er teas that Glen sources or blends himself. They sometimes release great teaware too!"
+  }, 
+  {
+    id: "cc_fine_tea",
+    name: "CC Fine Tea",
+    city: "Seattle",
+    coords: null,
+    website: "https://ccfinetea.com/",
+    google_maps: null,
+    specialty: "Generalist Chinese teas",
+    recommendation: "Great place to get some high quality teas from China."
+  }, 
+  {
+    id: "tea_j_tea",
+    name: "Tea J Tea",
+    city: "Seattle",
+    coords: null,
+    website: "https://teajtea.com/",
+    google_maps: null,
+    specialty: "Tea and pastry pairings",
+    recommendation: "Unique shop that offers their flagship tea and pastry pairing monthly subscription boxes. The teas and pastries are both very unique, and they have some award-winning Vietnamese loose leaf teas for sale too!"
   }
 ];
