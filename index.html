@@ -40,6 +40,15 @@
 
   L.tileLayer.provider("CartoDB.Positron").addTo(map);
 
+  const teaIcon = L.icon({
+  iconUrl: "Webmap Tea Pin (Tea Club Logo) v1.png",
+
+  iconSize:     [28, 39], // width, height (adjust to your PNG)
+  iconAnchor:   [14, 40], // point of the icon which corresponds to marker location
+  popupAnchor:  [0, -36]  // where popups open relative to the icon
+});
+
+
   // Separate online-only shops
   const onlineShops = teaShops.filter(shop => !shop.coords);
 
@@ -114,7 +123,7 @@
       </div>
     `;
 
-    L.marker(shop.coords)
+    L.marker(shop.coords, { icon: teaIcon })
       .addTo(map)
       .bindPopup(popupContent, { closeButton: false });
   });

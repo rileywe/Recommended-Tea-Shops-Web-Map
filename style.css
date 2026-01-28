@@ -8,7 +8,7 @@
    Dark Pink: #a86857
    Light Brown: #c99365 or rgb(201, 147, 101)
    Lighter Brown: #f8ae6d
-   Dark Brown: rgb(126, 80, 40)
+   Dark Brown: rgb(128, 59, 32) (tea club brown)
    ========================= */
 
 /* Base */
@@ -29,7 +29,7 @@ body {
   background: rgba(52, 97, 40, 0.9);
   padding: 12px 22px;
   border-radius: 12px;
-  border: 4px solid rgb(126, 80, 40, 0.88); /* Dark Brown */
+  /*border: 4px solid rgb(126, 80, 40, 0.88);  Dark Brown */
 
   box-shadow: 0 4px 12px rgba(60, 69, 68, 0.25); /* Gray-based shadow */
 
@@ -125,9 +125,9 @@ body {
 /* Subtle popup border tint */
 .leaflet-popup-content-wrapper {
   border-radius: 12px;
-  border: 4px solid rgba(255, 204, 190, 0.88); /* Light Pink */
+  /*border: 4px solid rgba(255, 204, 190, 0.88);  Light Pink */
   box-shadow: 0 6px 16px rgba(60, 69, 68, 0.2);
-  background: rgba(159, 243, 128, 0.85); /* Light Green v2, faded */
+  background: rgba(213, 241, 202, 0.85); /* Light Green v2, faded */
   backdrop-filter: blur(6px); /*Frosted-glass effect*/
 }
 
@@ -139,9 +139,9 @@ body {
   width: 280px;
   max-height: 40vh;
 
-  background: rgba(159, 243, 128, 0.95); /* Light Green */
+  background: rgba(213, 241, 202, 0.95); /* Light Green v2, faded */
   border-radius: 12px;
-  border: 4px solid rgba(255, 204, 190, 0.88); /* Light Pink */
+  border: 3px solid rgba(201, 147, 101, 0.88);  /*Light Brown */
   padding: 10px;
 
   box-shadow: 0 6px 16px rgba(60, 69, 68, 0.2);
@@ -153,7 +153,7 @@ body {
   font-size: 1.2rem;     
   font-weight: 700; /* bold */
   margin-bottom: 8px;
-  color: rgb(126, 80, 40); /* DarkBrown */
+  color: rgb(128, 59, 32); /* DarkBrown */
   text-align: center;
 }
 
@@ -174,11 +174,11 @@ body {
 
 .shop-name {
   font-weight: 600;
-  color: rgb(126, 80, 40); /* DarkBrown */
+  color: rgb(128, 59, 32); /* DarkBrown */
 }
 
 .shop-specialty {
-  color: rgb(126, 80, 40); /* DarkBrown */
+  color: rgb(128, 59, 32); /* DarkBrown */
   font-weight: 500;
 }
 
