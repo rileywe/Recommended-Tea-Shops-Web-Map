@@ -25,7 +25,13 @@
 
 <div id="map"></div>
 
-<!-- Mobile-only toggle (visibility handled in CSS) -->
+<!-- ✅ Mobile-only online shops container (NOT Leaflet) -->
+<div id="mobile-online-shops">
+  <div class="online-shops-header">Online-Only Shops</div>
+  <div class="online-shops-list" id="mobile-online-list"></div>
+</div>
+
+<!-- Mobile-only toggle (hidden via CSS on desktop) -->
 <button id="view-toggle">Online Shops</button>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -37,61 +43,63 @@
   // Map initialization
   // -----------------------------
   const map = L.map("map").setView([47.6062, -122.3321], 12);
-
   L.tileLayer.provider("CartoDB.Positron").addTo(map);
 
   const teaIcon = L.icon({
-  iconUrl: "Webmap Tea Pin (Tea Club Logo) v1.png",
+    iconUrl: "Webmap Tea Pin (Tea Club Logo) v1.png",
+    iconSize: [28, 39],
+    iconAnchor: [14, 40],
+    popupAnchor: [0, -36]
+  });
 
-  iconSize:     [28, 39], // width, height (adjust to your PNG)
-  iconAnchor:   [14, 40], // point of the icon which corresponds to marker location
-  popupAnchor:  [0, -36]  // where popups open relative to the icon
-});
-
-
+  // -----------------------------
   // Separate online-only shops
+  // -----------------------------
   const onlineShops = teaShops.filter(shop => !shop.coords);
 
   // -----------------------------
-  // Online shops panel (Leaflet control)
+  // Shared renderer (desktop + mobile)
   // -----------------------------
-  let onlinePanelEl = null;
+  function renderOnlineShops(targetEl) {
+    targetEl.innerHTML = onlineShops.map(shop => `
+      <div class="shop-card">
+        <div class="shop-name"><b>${shop.name}</b></div>
+        <div class="shop-specialty"><strong>Specialty:</strong> ${shop.specialty}</div>
+        <div class="shop-city">Location: ${shop.city}</div>
+        <div class="shop-recommendation">${shop.recommendation}</div>
+        <div class="shop-links">
+          <a href="${shop.website}" target="_blank" rel="noopener">Website</a>
+        </div>
+      </div>
+    `).join("");
+  }
 
+  // -----------------------------
+  // Desktop: Leaflet control
+  // -----------------------------
   const onlineShopControl = L.control({ position: "bottomleft" });
 
   onlineShopControl.onAdd = function () {
     const container = L.DomUtil.create("div", "online-shops-panel");
 
-    // Save reference for later toggle logic
-    onlinePanelEl = container;
-
-    // Prevent map interaction while scrolling panel
     L.DomEvent.disableClickPropagation(container);
     L.DomEvent.disableScrollPropagation(container);
 
     container.innerHTML = `
       <div class="online-shops-header">Online-Only Shops</div>
-      <div class="online-shops-list">
-        ${onlineShops.map(shop => `
-          <div class="shop-card">
-            <div class="shop-name"><b>${shop.name}</b></div>
-            <div class="shop-specialty"><strong>Specialty:</strong> ${shop.specialty}</div>
-            <div class="shop-city">Location: ${shop.city}</div>
-            <div class="shop-recommendation">${shop.recommendation}</div>
-            <div class="shop-links">
-              <a href="${shop.website}" target="_blank" rel="noopener">
-                Website
-              </a>
-            </div>
-          </div>
-        `).join("")}
-      </div>
+      <div class="online-shops-list"></div>
     `;
 
+    renderOnlineShops(container.querySelector(".online-shops-list"));
     return container;
   };
 
   onlineShopControl.addTo(map);
+
+  // -----------------------------
+  // Mobile: standalone list
+  // -----------------------------
+  renderOnlineShops(document.getElementById("mobile-online-list"));
 
   // -----------------------------
   // Map markers (walk-in shops)
@@ -102,23 +110,14 @@
     const popupContent = `
       <div class="popup">
         <div class="popup-title"><b>${shop.name}</b></div>
-
         <div class="popup-specialty">
           <strong>Specialty:</strong> ${shop.specialty}
         </div>
-
-        <div class="popup-recommendation">
-          ${shop.recommendation}
-        </div>
-
+        <div class="popup-recommendation">${shop.recommendation}</div>
         <div class="popup-links">
-          <a href="${shop.website}" target="_blank" rel="noopener">
-            Website
-          </a>
+          <a href="${shop.website}" target="_blank" rel="noopener">Website</a>
           <span>·</span>
-          <a href="${shop.google_maps}" target="_blank" rel="noopener">
-            Google Maps
-          </a>
+          <a href="${shop.google_maps}" target="_blank" rel="noopener">Google Maps</a>
         </div>
       </div>
     `;
@@ -131,23 +130,24 @@
   // -----------------------------
   // Mobile toggle behavior
   // -----------------------------
-  let showingList = false;
   const toggleBtn = document.getElementById("view-toggle");
   const mapEl = document.getElementById("map");
+  const mobileListEl = document.getElementById("mobile-online-shops");
+
+  let showingList = false;
 
   toggleBtn.addEventListener("click", () => {
-    // Only toggle on small screens
     if (window.innerWidth > 768) return;
 
     showingList = !showingList;
 
     mapEl.style.display = showingList ? "none" : "block";
-    onlinePanelEl.style.display = showingList ? "block" : "block";
+    mobileListEl.style.display = showingList ? "block" : "none";
 
     toggleBtn.textContent = showingList ? "Map View" : "Online Shops";
 
     if (!showingList) {
-      map.invalidateSize();
+      setTimeout(() => map.invalidateSize(), 150);
     }
   });
 </script>
