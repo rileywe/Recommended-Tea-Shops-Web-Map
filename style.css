@@ -137,7 +137,11 @@ body {
 
 .online-shops-panel {
   width: 280px;
-  max-height: 40vh;
+  max-height: 45vh;            /* panel takes up to ~half the screen */
+  overflow-y: auto;            /* enable scrolling */
+  -webkit-overflow-scrolling: touch;
+
+  padding-right: 6px;          /* space for scrollbar */
 
   background: rgba(213, 241, 202, 0.95); /* Light Green v2, faded */
   border-radius: 12px;
@@ -146,8 +150,17 @@ body {
 
   box-shadow: 0 6px 16px rgba(60, 69, 68, 0.2);
   font-size: 0.85rem;
-  overflow: hidden;
 }
+
+.online-shops-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.online-shops-panel::-webkit-scrollbar-thumb {
+  background: rgba(60, 69, 68, 0.35);
+  border-radius: 4px;
+}
+
 
 .online-shops-header {
   font-size: 1.2rem;     
@@ -155,21 +168,32 @@ body {
   margin-bottom: 8px;
   color: rgb(128, 59, 32); /* DarkBrown */
   text-align: center;
+
+  /*
+  position: sticky;
+  top: 0;
+  background: rgba(213, 241, 202, 0.95);
+  padding-bottom: 6px;
+  padding-left: 6px;
+  padding-right: 6px;
+  z-index: 1;
+  */
 }
 
 .online-shops-list {
-  overflow-y: auto;
-  max-height: calc(40vh - 32px);
   padding-right: 4px;
+  max-height: none;
 }
 
 .shop-card {
   padding: 8px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
 }
 
 .shop-card:last-child {
   border-bottom: none;
+  margin-bottom: 40px;
 }
 
 .shop-name {
@@ -212,6 +236,28 @@ body {
 }
 
 /* =========================
+   Mobile online shops view
+   ========================= */
+#mobile-online-shops {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  background: #ffffff;
+  z-index: 999;
+
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  padding: 80px 16px 20px; /* space for toggle button */
+}
+
+
+/* =========================
    Desktop behavior
    ========================= */
 
@@ -219,6 +265,10 @@ body {
 @media (min-width: 768px) {
   .online-shops-panel {
     display: block !important;
+  }
+
+  #mobile-online-shops {
+    display: none !important;
   }
 
   #view-toggle {
@@ -233,6 +283,10 @@ body {
 @media (max-width: 767px) {
   .online-shops-panel {
     display: none;
+  }
+
+  #mobile-online-shops {
+    max-height: none !important;
   }
 
   body.show-online-list .online-shops-panel {

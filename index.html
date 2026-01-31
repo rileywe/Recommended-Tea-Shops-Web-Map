@@ -132,17 +132,20 @@
   // -----------------------------
   const toggleBtn = document.getElementById("view-toggle");
   const mapEl = document.getElementById("map");
+  const titleEl = document.getElementById("title-container");
   const mobileListEl = document.getElementById("mobile-online-shops");
 
   let showingList = false;
 
   toggleBtn.addEventListener("click", () => {
+    // Only toggle on small screens
     if (window.innerWidth > 768) return;
 
     showingList = !showingList;
 
     mapEl.style.display = showingList ? "none" : "block";
     mobileListEl.style.display = showingList ? "block" : "none";
+    titleEl.style.display = showingList ? "none" : "block";
 
     toggleBtn.textContent = showingList ? "Map View" : "Online Shops";
 
